@@ -11,8 +11,6 @@ model = glmnet(as.matrix(ratings[,1:2]), as.matrix(ratings[,3]), family="multino
 
 prediction = as.data.frame(predict(model, as.matrix(idmap[,1:2]), type="response"))
 
-# multinom(Rating ~ UserID + ProfileID, data=ratings)
-
 response = matrix(rep(0,nrow(ratings)*10), ncol=10)
 # apply(response, 1, function(row){row[ratings$Rating]=1})
 
@@ -23,3 +21,5 @@ for(i in 1:nrow(ratings)) {
 model2 = glmnet(as.matrix(ratings[,1:2]), as.matrix(response), family="multinomial")
 prediction2 = as.data.frame(predict(model2, as.matrix(idmap[,1:2])))
 
+model3 = multinom(response ~ ratings$UserID + ratings$ProfileID)
+prediction3 = as.data.frame(predict(model3, as.matrix(idmap[,1:2])))
